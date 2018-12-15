@@ -18,15 +18,12 @@ URL = 'https://github.com/131250208/Cities'
 EMAIL = 'wychengpublic@163.com'
 AUTHOR = 'Andy Wong'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = 0.4
+VERSION = 0.6
 
 # What packages are required for this module to be executed?
 REQUIRED = [
     "pyprind",
     "numpy",
-    "csv",
-    "json",
-    "logging"
 ]
 
 # What packages are optional?
