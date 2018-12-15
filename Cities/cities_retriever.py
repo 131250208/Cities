@@ -3,36 +3,36 @@ from itertools import islice
 import numpy as np
 import pyprind
 import math
-import settings
+from Cities import settings
 import json
 import time
 import logging
 
 
 class CitiesRetriever:
-    def __init__(self):
-        dict_path = "%s/%s_%s.json" % (settings.DICT_FILE_DIR, "dict", settings.GRANULARITY)
+    def __init__(self, raw_file_path):
+        self.gran = settings.GRANULARITY
         try:
             logging.warning("Try to load the city dict...")
             t1 = time.time()
-            self.dict = json.load(open(dict_path, "r", encoding="utf-8"))
+            self.dict = json.load(open("%s/dict_%d.json" % (settings.DICT_FILE_DIR, self.gran), "r", encoding="utf-8"))
             t2 = time.time()
             logging.warning("done in %f s." % (t2 - t1))
         except:
             logging.warning("No dict, building ...")
             t1 = time.time()
-            self.dict = self.build_dict(dict_path, settings.GRANULARITY)
+            self.dict = self.build_dict(raw_file_path, self.gran)
             t2 = time.time()
             logging.warning("done in %f s." % (t2 - t1))
         pass
 
-    def build_dict(self, path, gran):
+    def build_dict(self, raw_file_path, gran):
         offset_lon = 180
         offset_lat = 90
         coordinate_range_2_cities = list(np.zeros([int(360 / gran), int(180 / gran)], dtype=int).tolist())
 
         prog = pyprind.ProgBar(int((4181951 + 360 * 180) / math.pow(gran, 2)))
-        with open(settings.RAW_DATA_PATH, 'r', encoding="utf-8") as csvfile:
+        with open(raw_file_path, 'r', encoding="utf-8") as csvfile:
             reader = csv.reader(csvfile)
             for row in islice(reader, 1, None):
                 city_name = row[0]
@@ -93,7 +93,7 @@ class CitiesRetriever:
 
                     prog.update()
         logging.warning("writing the dict to file...")
-        json.dump(coordinate_range_2_cities, open(path, "w", encoding="utf-8"))
+        json.dump(coordinate_range_2_cities, open("%s/dict_%d.json" % (settings.DICT_FILE_DIR, gran), "w", encoding="utf-8"))
         return coordinate_range_2_cities
 
     def in_rectangle(self, city, lon_start, lon_end, lat_start, lat_end):
@@ -119,7 +119,7 @@ class CitiesRetriever:
     def retrieve_cities(self, lon_start, lon_end, lat_start, lat_end, num):
         offset_lon = 180
         offset_lat = 90
-        gran = settings.GRANULARITY
+        gran = self.gran
         dict = self.dict
 
         lon_start_ind = int((lon_start + offset_lon) / gran)
@@ -177,6 +177,7 @@ class CitiesRetriever:
 
 
 if __name__ == "__main__":
-    cr = CitiesRetriever()
-    cities = cr.retrieve_cities(-124.71, -77.21, 25.24, 44.75, 50)
-    print(json.dumps(cities, indent=2))
+    cr = CitiesRetriever("Sources/worldcities.csv")
+    cities = cr.retrieve_cities(-124.71, -77.21, 25.24, 44.75, 500000)
+    print(len(cities))
+    # print(json.dumps(cities, indent=2))
