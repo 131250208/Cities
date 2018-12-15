@@ -8,7 +8,6 @@ setup(
   author='Andy Wong',                   # Type in your name
   author_email='wychengpublic@163.com',      # Type in your E-Mail
   url='https://github.com/131250208/Cities',   # Provide either the link to your github or to your website
-  download_url='https://github.com/user/reponame/archive/v_01.tar.gz',    # I explain this later on
   keywords=['CITY', 'POPULATION', 'GEOLOCATION'],   # Keywords that define your package best
   install_requires=[            # I get to this in a second
         "pyprind",
