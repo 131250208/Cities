@@ -10,7 +10,7 @@ pip install Cities
 3. the author is cute.
 
 # Required File
-Download  the [city data](https://pan.baidu.com/s/1W_eWlaN3G7-lml0fGhx1dQ) and put it at any directory you want. Remember to set the path up when you initiate an instance.
+Download  the [city data](https://pan.baidu.com/s/1EPkpZH2pFFR3USGJ5e_gDA) and put it at any directory you want. Remember to set the path up when you initiate an instance.
 
 # Example
 ```
