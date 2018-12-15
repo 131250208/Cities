@@ -1,1 +1,1 @@
-import cities_retriever
+from Cities import cities_retriever
