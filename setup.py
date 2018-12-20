@@ -17,8 +17,8 @@ DESCRIPTION = 'Cities is a simple tool for searching cities located at a given l
 URL = 'https://github.com/131250208/Cities'
 EMAIL = 'wychengpublic@163.com'
 AUTHOR = 'Andy Wong'
-REQUIRES_PYTHON = '>=3.6.0'
-VERSION = 0.7
+REQUIRES_PYTHON = '>=3.5.0'
+VERSION = 0.8
 
 # What packages are required for this module to be executed?
 REQUIRED = [
