@@ -9,14 +9,14 @@ class CitiesRetrieverByRegionName:
         try:
             logging.warning("Try to load the city dict...")
             t1 = time.time()
-            self.dict = json.load(open(dict_file_path, "r", encoding="utf-8"))
+            self.city_dict = json.load(open(dict_file_path, "r", encoding="utf-8"))
             t2 = time.time()
             logging.warning("done in %f s." % (t2 - t1))
         except:
             logging.warning("No dict file founded, please check the path...")
 
     def retrieve_cities(self, country, region=None, num=999999):
-        dict_country = self.dict[country]
+        dict_country = self.city_dict[country]
         city_list = []
         if region is not None:
             city_list = dict_country[region]
@@ -35,7 +35,7 @@ class CitiesRetrieverByRect:
         try:
             logging.warning("Try to load the city dict...")
             t1 = time.time()
-            self.dict = json.load(open(dict_file_path, "r", encoding="utf-8"))
+            self.city_dict = json.load(open(dict_file_path, "r", encoding="utf-8"))
             t2 = time.time()
             logging.warning("done in %f s." % (t2 - t1))
         except:
@@ -74,7 +74,7 @@ class CitiesRetrieverByRect:
         offset_lon = 180
         offset_lat = 90
         gran = self.gran
-        dict = self.dict
+        city_dict = self.city_dict
 
         lon_start_ind = int((lon_start + offset_lon) / gran)
         lat_start_ind = int((lat_start + offset_lat) / gran)
@@ -85,9 +85,9 @@ class CitiesRetrieverByRect:
         rank_2_candidates = {"1": [], "2": [], "3": [], "4": [], "5": []}
         slice_lon = None
         if lon_start_ind <= lon_end_ind:
-            slice_lon = dict[lon_start_ind: lon_end_ind + 1]
+            slice_lon = city_dict[lon_start_ind: lon_end_ind + 1]
         else:
-            slice_lon = dict[:lon_end_ind + 1] + dict[lon_start_ind:]
+            slice_lon = city_dict[:lon_end_ind + 1] + city_dict[lon_start_ind:]
 
         if lat_start_ind <= lat_end_ind:
             for slice in slice_lon:
@@ -131,13 +131,6 @@ class CitiesRetrieverByRect:
 
 
 if __name__ == "__main__":
-    ## 4million cities --- 12s
-    # dict_all_cities_region2cities.json
-    # dict_all_cities_rect2cities.json
-    ## 8000 cities --- < 1s
-    # dict_cities_8000_region2cities.json
-    # dict_cities_8000_rect2cities.json
-
     cr = CitiesRetrieverByRect("Sources/dict_all_cities_rect2cities.json")
     cities = cr.retrieve_cities(-124.71, -77.21, 25.24, 44.75, num=500)
     print(cities)
@@ -150,22 +143,4 @@ if __name__ == "__main__":
     print(len(cities))
     # print(json.dumps(cities, indent=2))
 
-    # d = json.load(open("Sources/dict_region2cities.json", "r", encoding="utf-8"))
-    # country_set = set()
-    # region_set = set()
-    # for country in d.keys():
-    #     if country == "":
-    #         continue
-    #     country_set.add(country)
-    #     for region in d[country].keys():
-    #         if region == "":
-    #             continue
-    #         region_set.add(region)
-
-    # country_list = list(country_set)
-    # region_list = list(region_set)
-    # print(len(country_list))
-    # print(len(region_list))
-    # json.dump(country_list, open("Sources/country_list.json", "w", encoding="utf-8"))
-    # json.dump(region_list, open("Sources/region_list.json", "w", encoding="utf-8"))
 
