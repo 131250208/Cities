@@ -18,12 +18,12 @@ Download  the [city data](https://pan.baidu.com/s/10qjtq9jl7tLxXeypfJCrEg) and p
 ```python
 from Cities import cities_retriever
 
-cr = cities_retriever.CitiesRetrieverByRect("Sources/dict_2.json")
+cr = cities_retriever.CitiesRetrieverByRect("Sources/dict_all_cities_rect2cities.json")
 cities = cr.retrieve_cities(lon_start=-124.71, lon_end=-77.21, lat_start=25.24, lat_end=44.75, num=500) # num is optional, default: 999999
 print(cities)
 print(len(cities))
 
-cr = cities_retriever.CitiesRetrieverByRegionName("Sources/dict_region2cities.json")
+cr = cities_retriever.CitiesRetrieverByRegionName("Sources/dict_all_cities_region2cities.json")
 cities = cr.retrieve_cities(country="United States", region="Washington", num=500) # region and num are optional
 print(cities)
 print(len(cities))
